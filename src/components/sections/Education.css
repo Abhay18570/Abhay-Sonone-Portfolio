@@ -1,0 +1,30 @@
+@layer components {
+  .education { padding-block: clamp(3.5rem, 7.5vw, 6.875rem); background: var(--color-background); color: var(--color-foreground); }
+  .education-heading { text-align: center; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .education-heading h2 { font-size: clamp(2.125rem, 4.4vw, 3.5rem); font-weight: 800; }
+  .education-heading p { margin-top: 1rem; color: var(--color-secondary); text-wrap: balance; }
+  .education-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .education-grid article { min-width: 0; }
+  .education-card { height: 100%; padding: clamp(1.25rem, 2.5vw, 2rem); }
+  .education-card-current { border-color: rgb(139 92 246 / 0.55); }
+  .education-card-top { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+  .education-icon { flex-shrink: 0; }
+  .education-icon-degree { color: var(--color-violet); }
+  .education-icon-diploma { color: var(--color-blue); }
+  .education-icon-school { color: var(--color-magenta); }
+  .education-current { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.25rem 0.5rem; border-radius: 999px; background: rgb(34 197 94 / 0.08); color: var(--color-secondary); font-size: 0.6875rem; font-weight: 500; }
+  .education-current > span { width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: var(--color-success); }
+  .education-card h3 { font-size: clamp(1.375rem, 2vw, 1.5625rem); line-height: 1.3; }
+  .education-institution { margin-top: 0.875rem; color: #cbd5e1; font-size: 1rem; font-weight: 600; }
+  .education-period { display: inline-block; max-width: 100%; margin-top: 1rem; padding: 0.375rem 0.75rem; border: 1px solid rgb(139 92 246 / 0.25); border-radius: 999px; background: rgb(139 92 246 / 0.1); color: #c4b5fd; font-size: 0.8125rem; font-weight: 500; }
+  .education-pending { margin-top: 0.625rem; color: var(--color-secondary); font-size: 0.8125rem; }
+  .education-highlights { display: grid; gap: 0.875rem; margin-top: 1.5rem; color: var(--color-secondary); font-size: 0.9375rem; }
+  .education-highlights li { display: flex; align-items: flex-start; gap: 0.625rem; }
+  .education-highlights svg { flex: 0 0 18px; margin-top: 0.25rem; color: #c4b5fd; }
+  .education-studies { margin-top: clamp(2.5rem, 5vw, 4rem); text-align: center; }
+  .education-studies h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); }
+  .education-studies p { margin-top: 0.5rem; color: var(--color-secondary); font-size: 0.875rem; }
+  .education-studies ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.625rem; margin-top: 1.25rem; }
+  @media (min-width: 768px) { .education-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1100px) { .education-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.75rem; } }
+}
