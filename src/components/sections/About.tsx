@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import aboutImage from '../../images/abhay-about-img.jpeg'
 import teamImage from '../../images/abhay-team.jpeg'
-import { motion } from 'framer-motion'
-import { usePortfolioMotion, slideInLeft, slideInRight, fadeInUp, popIn, scaleIn } from '../../motion/presets'
+import { motion, type Variants } from 'framer-motion'
+import { usePortfolioMotion, motionTiming } from '../../motion/presets'
 import { ArrowRight, CircleCheck, Image } from 'lucide-react'
 import { portfolio } from '../../data/portfolio'
 import { GradientText } from '../ui/GradientText'
@@ -22,6 +22,19 @@ const leadershipHighlights = [
 ]
 const interests = ['FinTech', 'Artificial Intelligence', 'Backend Engineering', 'Data Analytics', 'System Design']
 
+// Reveal each complete row as one group, preserving all resting layout styles.
+function directionalReveal(direction: 1 | -1): Variants {
+  return {
+    hidden: (distance: number) => ({ opacity: 0, x: direction * distance, scale: 0.98 }),
+    visible: {
+      opacity: 1, x: 0, scale: 1,
+      transition: { duration: 0.8, ease: motionTiming.ease },
+    },
+  }
+}
+const studentReveal = directionalReveal(1)
+const leadershipReveal = directionalReveal(-1)
+
 function AboutPhoto({ src, alt }: { src: string; alt: string }) {
   const [failed, setFailed] = useState(false)
   return (
@@ -37,23 +50,27 @@ function AboutPhoto({ src, alt }: { src: string; alt: string }) {
 }
 
 function CheckList({ items }: { items: string[] }) {
-  const { reveal } = usePortfolioMotion()
   return (
     <ul className="about-checklist">
-      {items.map((item, index) => (
-        <motion.li {...reveal(index * 0.07, fadeInUp)} key={item}>
-          <motion.span {...reveal(index * 0.07, popIn)} className="about-check-icon">
+      {items.map((item) => (
+        <li key={item}>
+          <span className="about-check-icon">
             <CircleCheck size={19} aria-hidden="true" />
-          </motion.span>
+          </span>
           <span>{item}</span>
-        </motion.li>
+        </li>
       ))}
     </ul>
   )
 }
 
 export function About() {
-  const { reveal } = usePortfolioMotion()
+  const { reveal, compact, reduced } = usePortfolioMotion()
+  const rowReveal = (variants: Variants) => ({
+    ...reveal(0, variants),
+    custom: compact ? 36 : 80,
+    transition: { duration: reduced ? 0 : 0.8, ease: motionTiming.ease },
+  })
 
   return (
     <section id="about" className="about" aria-labelledby="about-title">
@@ -62,33 +79,33 @@ export function About() {
           <motion.h2 {...reveal()} id="about-title"><GradientText>About Me</GradientText></motion.h2>
           <motion.p {...reveal(0.1)}>A little about my journey, interests and what I love building.</motion.p>
         </div>
-        <div className="about-introduction-row">
-          <motion.div {...reveal(0, slideInLeft)}>
+        <motion.div className="about-introduction-row" {...rowReveal(studentReveal)}>
+          <div>
             <AboutPhoto src={aboutImage} alt="Abhay Sonone at a technical event" />
-          </motion.div>
-          <motion.div className="about-copy" {...reveal(0.1, slideInRight)}>
-            <motion.h3 {...reveal(0.12)}>{portfolio.role}</motion.h3>
-            <motion.p {...reveal(0.16)} className="about-college">{portfolio.college}</motion.p>
-            <motion.p {...reveal(0.2)}>I am a Computer Engineering student passionate about building practical technology solutions using full-stack development, AI/ML and data-driven systems. I enjoy turning real-world problems into working software through projects, hackathons and continuous experimentation.</motion.p>
-            <motion.p {...reveal(0.24)}>My current interests include Full Stack Development, Artificial Intelligence, FinTech, backend engineering and data-driven applications. I am particularly interested in understanding how technology can solve practical business and financial problems.</motion.p>
+          </div>
+          <div className="about-copy">
+            <h3>{portfolio.role}</h3>
+            <p className="about-college">{portfolio.college}</p>
+            <p>I am a Computer Engineering student passionate about building practical technology solutions using full-stack development, AI/ML and data-driven systems. I enjoy turning real-world problems into working software through projects, hackathons and continuous experimentation.</p>
+            <p>My current interests include Full Stack Development, Artificial Intelligence, FinTech, backend engineering and data-driven applications. I am particularly interested in understanding how technology can solve practical business and financial problems.</p>
             <CheckList items={highlights} />
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
         <hr className="about-divider" />
-        <div className="about-journey-row">
-          <motion.div className="about-copy about-journey-copy" {...reveal(0, slideInLeft)}>
-            <motion.h3 {...reveal(0.08)}>Tech Team Lead</motion.h3>
-            <motion.p {...reveal(0.14)} className="about-college">Hackops Heroes</motion.p>
+        <motion.div className="about-journey-row" {...rowReveal(leadershipReveal)}>
+          <div className="about-copy about-journey-copy">
+            <h3>Tech Team Lead</h3>
+            <p className="about-college">Hackops Heroes</p>
             <CheckList items={leadershipHighlights} />
             <div className="about-focus">
-              <motion.h3 {...reveal(0.18)}>Currently Exploring</motion.h3>
-              <ul>{interests.map((interest, index) => <motion.li {...reveal(0.2 + index * 0.05, scaleIn)} key={interest}>{interest}</motion.li>)}</ul>
+              <h3>Currently Exploring</h3>
+              <ul>{interests.map((interest) => <li key={interest}>{interest}</li>)}</ul>
             </div>
-          </motion.div>
-          <motion.div className="about-journey-photo" {...reveal(0.1, slideInRight)}>
+          </div>
+          <div className="about-journey-photo">
             <AboutPhoto src={teamImage} alt="Abhay Sonone with his team" />
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
         <div className="about-cta">
           <a href="#projects">Explore My Projects <ArrowRight size={18} aria-hidden="true" /></a>
         </div>

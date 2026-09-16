@@ -1,3 +1,4 @@
+import { RotatingIcon } from '../ui/RotatingIcon'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { usePortfolioMotion } from '../../motion/presets'
@@ -19,7 +20,7 @@ function ProjectCard({ project }: { project: Project }) {
           <img src={project.image} alt={project.imageAlt ?? `${project.title} preview`} loading="lazy" decoding="async" width={800} height={450} onError={() => setImageFailed(true)} />
         ) : (
           <div className="project-preview-placeholder">
-            <PreviewIcon size={38} strokeWidth={1.5} aria-hidden="true" />
+            <RotatingIcon><PreviewIcon size={38} strokeWidth={1.5} aria-hidden="true" /></RotatingIcon>
             <span>{project.placeholder ? 'Project preview coming soon' : `Add ${project.title} Preview`}</span>
           </div>
         )}
@@ -36,8 +37,8 @@ function ProjectCard({ project }: { project: Project }) {
         )}
         {(project.github || project.liveUrl) && (
           <div className="project-actions">
-            {project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} on GitHub (opens in a new tab)`}><SiGithub size={17} aria-hidden="true" />GitHub</a>}
-            {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} live demo (opens in a new tab)`}>Live Demo<ExternalLink size={17} aria-hidden="true" /></a>}
+            {project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} on GitHub (opens in a new tab)`}><RotatingIcon area="a" duration={0.55}><SiGithub size={17} aria-hidden="true" /></RotatingIcon>GitHub</a>}
+            {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} live demo (opens in a new tab)`}>Live Demo<RotatingIcon area="a" duration={0.55}><ExternalLink size={17} aria-hidden="true" /></RotatingIcon></a>}
           </div>
         )}
       </div>

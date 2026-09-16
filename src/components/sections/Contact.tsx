@@ -1,3 +1,4 @@
+import { RotatingIcon } from '../ui/RotatingIcon'
 import { motion } from 'framer-motion'
 import { usePortfolioMotion, slideInLeft, slideInRight, scaleIn, popIn } from '../../motion/presets'
 import { Mail, Users } from 'lucide-react'
@@ -26,7 +27,7 @@ export function Contact() {
           <div className="contact-grid">
             <motion.div {...reveal(0, slideInLeft)}>
               <article className="contact-card" aria-labelledby="contact-email-title">
-                <div className="contact-icon"><Mail size={28} aria-hidden="true" /></div>
+                <div className="contact-icon"><RotatingIcon area=".contact-icon"><Mail size={28} aria-hidden="true" /></RotatingIcon></div>
                 <h3 id="contact-email-title">Email Me</h3>
                 <p>Drop me a message anytime</p>
                 {mailto ? <a className="contact-email" href={mailto}>{email}</a> : <p className="contact-email-placeholder">Add your email address</p>}
@@ -34,7 +35,7 @@ export function Contact() {
             </motion.div>
             <motion.div {...reveal(0.08, slideInRight)}>
               <article className="contact-card" aria-labelledby="contact-social-title">
-                <div className="contact-icon"><Users size={28} aria-hidden="true" /></div>
+                <div className="contact-icon"><RotatingIcon area=".contact-icon"><Users size={28} aria-hidden="true" /></RotatingIcon></div>
                 <h3 id="contact-social-title">Connect With Me</h3>
                 <p>Find me on social platforms</p>
                 <ul className="contact-socials">
@@ -49,7 +50,7 @@ export function Contact() {
                           className="contact-social"
                           aria-label={label}
                         >
-                          <Icon size={22} aria-hidden="true" />
+                          <RotatingIcon duration={0.55} area=".contact-social"><Icon size={22} aria-hidden="true" /></RotatingIcon>
                         </a>
                       </motion.li>
                     )

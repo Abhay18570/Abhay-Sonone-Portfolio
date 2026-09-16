@@ -119,12 +119,12 @@
       box-shadow: 0 10px 24px rgb(15 23 42 / 0.14);
     }
     .tech-logo-card:hover .tech-logo {
-      animation: tech-icon-greet 400ms var(--motion-ease) both;
+      transform: scale(1.1);
     }
 
     /* Icon micro-interactions */
     .education-card:hover .education-icon {
-      animation: education-icon-greet 400ms var(--motion-ease) both;
+      transform: scale(1.08);
     }
     .experience-card:hover .experience-icon-wrapper {
       transform: scale(1.08);
@@ -146,19 +146,19 @@
 
     /* Social icons */
     a.hero-social:hover {
-      transform: translateY(-3px) scale(1.12) rotate(4deg);
+      transform: translateY(-3px) scale(1.12);
       color: var(--color-foreground);
       background: var(--color-card);
       box-shadow: 0 4px 14px rgb(109 59 255 / 0.2);
     }
     a.contact-social:hover {
-      transform: translateY(-3px) scale(1.12) rotate(4deg);
+      transform: translateY(-3px) scale(1.12);
       border-color: var(--color-violet);
       color: #c4b5fd;
       box-shadow: 0 4px 14px rgb(109 59 255 / 0.2);
     }
     a.footer-social:hover {
-      transform: translateY(-3px) scale(1.12) rotate(4deg);
+      transform: translateY(-3px) scale(1.12);
       color: #c4b5fd;
     }
 
@@ -238,17 +238,6 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(3px); }
 }
-@keyframes tech-icon-greet {
-  0% { transform: scale(1) rotate(0); }
-  50% { transform: scale(1.1) rotate(4deg); }
-  100% { transform: scale(1.1) rotate(0); }
-}
-@keyframes education-icon-greet {
-  0% { transform: scale(1) rotate(0); }
-  50% { transform: scale(1.08) rotate(3deg); }
-  100% { transform: scale(1.08) rotate(0); }
-}
-
 /* prefers-reduced-motion: reduce - ensure instant clarity without motion */
 @media (prefers-reduced-motion: reduce) {
   [data-motion-reveal] {

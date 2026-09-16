@@ -125,7 +125,7 @@ export const experience: ExperienceEntry[] = [
     type: 'Internship',
     period: '23 Jul 2026 – 23 Sep 2026',
     location: 'Mulund, Mumbai',
-    workMode: 'On-site',
+    workMode: 'Remote',
     description: 'Worked as a Full Stack Developer Intern, contributing to web application development across frontend, backend, and database components.',
     highlights: [
       'Developed and maintained full-stack web application features',

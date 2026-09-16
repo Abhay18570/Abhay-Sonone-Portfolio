@@ -1,3 +1,4 @@
+import { RotatingIcon } from '../ui/RotatingIcon'
 import { motion } from 'framer-motion'
 import { usePortfolioMotion, slideInLeft, slideInRight, fadeInUp, scaleIn } from '../../motion/presets'
 import { BookOpen, Check, GraduationCap, School } from 'lucide-react'
@@ -32,7 +33,7 @@ export function Education() {
               >
                 <Card hoverable className={`education-card ${entry.current ? 'education-card-current' : ''}`}>
                   <div className="education-card-top">
-                    <Icon size={40} strokeWidth={1.5} className={`education-icon education-icon-${entry.icon}`} aria-hidden="true" />
+                    <RotatingIcon><Icon size={40} strokeWidth={1.5} className={`education-icon education-icon-${entry.icon}`} aria-hidden="true" /></RotatingIcon>
                     {entry.current && <span className="education-current"><span aria-hidden="true" />Currently Studying</span>}
                   </div>
                   <h3 id={`education-${entry.id}`}>{entry.degree}</h3>

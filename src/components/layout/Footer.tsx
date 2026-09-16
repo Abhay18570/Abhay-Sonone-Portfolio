@@ -1,3 +1,4 @@
+import { RotatingIcon } from '../ui/RotatingIcon'
 import { motion } from 'framer-motion'
 import { usePortfolioMotion } from '../../motion/presets'
 import { ArrowUp } from 'lucide-react'
@@ -22,7 +23,7 @@ export function Footer() {
       <motion.div className="page-container" {...reveal()}>
         <div className="footer-main">
           <a className="footer-brand" href="#home">
-            <span className="footer-initials" aria-hidden="true">{portfolio.initials}</span>
+            <RotatingIcon pulse={1.05}><span className="footer-initials" aria-hidden="true">{portfolio.initials}</span></RotatingIcon>
             <span>{portfolio.name.toUpperCase()}</span>
           </a>
           <nav aria-label="Footer navigation">
@@ -42,7 +43,7 @@ export function Footer() {
                     rel="noopener noreferrer"
                     aria-label={label}
                   >
-                    <Icon size={19} aria-hidden="true" />
+                    <RotatingIcon duration={0.55} area=".footer-social"><Icon size={19} aria-hidden="true" /></RotatingIcon>
                   </a>
                 </li>
               )

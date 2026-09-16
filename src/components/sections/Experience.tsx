@@ -1,5 +1,7 @@
-import { motion } from 'framer-motion'
-import { usePortfolioMotion, scaleIn, fadeInUp } from '../../motion/presets'
+import { RotatingIcon } from '../ui/RotatingIcon'
+import { useSyncExternalStore } from 'react'
+import { motion, type Variants } from 'framer-motion'
+import { usePortfolioMotion, motionTiming, scaleIn } from '../../motion/presets'
 import { Building2, Calendar, Check, Code2, Globe, Laptop, MapPin, Smartphone, Users } from 'lucide-react'
 import { experience } from '../../data/portfolio'
 import { Card } from '../ui/Card'
@@ -13,8 +15,27 @@ const roleIcons = {
   mobile: Smartphone,
 }
 
+const tabletQuery = '(max-width: 1199px)'
+function subscribeTablet(notify: () => void) {
+  const media = window.matchMedia(tabletQuery)
+  media.addEventListener('change', notify)
+  return () => media.removeEventListener('change', notify)
+}
+const getTablet = () => window.matchMedia(tabletQuery).matches
+const serverTablet = () => true
+
+const experienceReveal: Variants = {
+  hidden: (distance: number) => ({ opacity: 0, x: distance, scale: 0.98 }),
+  visible: {
+    opacity: 1, x: 0, scale: 1,
+    transition: { duration: 0.8, ease: motionTiming.ease },
+  },
+}
+
 export function Experience() {
-  const { reveal } = usePortfolioMotion()
+  const { reveal, compact, reduced } = usePortfolioMotion()
+  const tablet = useSyncExternalStore(subscribeTablet, getTablet, serverTablet)
+  const distance = compact ? 30 : tablet ? 50 : 80
 
   return (
     <section id="experience" className="experience" aria-labelledby="experience-title">
@@ -30,7 +51,9 @@ export function Experience() {
               <motion.div
                 className="experience-entry"
                 key={entry.id}
-                {...reveal(index * 0.1)}
+                {...reveal(0, experienceReveal)}
+                custom={index % 2 === 0 ? distance : -distance}
+                transition={{ duration: reduced ? 0 : 0.8, ease: motionTiming.ease }}
                 onViewportEnter={(el) => el?.target.setAttribute('data-entered', 'true')}
               >
                 <motion.span
@@ -77,26 +100,26 @@ export function Experience() {
                         </div>
                       </div>
                       <div className="experience-icon-wrapper" aria-hidden="true">
-                        <Icon size={26} strokeWidth={1.5} className="experience-icon" />
+                        <RotatingIcon area=".experience-icon-wrapper"><Icon size={26} strokeWidth={1.5} className="experience-icon" /></RotatingIcon>
                       </div>
                     </div>
 
                     <p className="experience-description">{entry.description}</p>
 
                     <ul className="experience-highlights">
-                      {entry.highlights.map((highlight, hIndex) => (
-                        <motion.li key={highlight} {...reveal(hIndex * 0.04, fadeInUp)}>
+                      {entry.highlights.map((highlight) => (
+                        <li key={highlight}>
                           <Check size={18} aria-hidden="true" />
                           <span>{highlight}</span>
-                        </motion.li>
+                        </li>
                       ))}
                     </ul>
 
                     <ul className="experience-tags" aria-label="Skills and technologies">
-                      {entry.tags.map((tag, tIndex) => (
-                        <motion.li key={tag} className="experience-tag" {...reveal(0.08 + tIndex * 0.03, scaleIn)}>
+                      {entry.tags.map((tag) => (
+                        <li key={tag} className="experience-tag">
                           {tag}
-                        </motion.li>
+                        </li>
                       ))}
                     </ul>
                   </Card>

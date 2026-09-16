@@ -1,3 +1,4 @@
+import { RotatingIcon } from '../ui/RotatingIcon'
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { usePortfolioMotion } from '../../motion/presets'
@@ -115,7 +116,7 @@ export function Navbar() {
       <nav aria-label="Primary navigation" className="page-container">
         <div className="navbar-row">
           <a href="#home" className="navbar-brand" onClick={() => setIsOpen(false)}>
-            <span className="navbar-logo" aria-hidden="true">AS</span>
+            <RotatingIcon pulse={1.05}><span className="navbar-logo" aria-hidden="true">AS</span></RotatingIcon>
             <span>ABHAY SONONE</span>
           </a>
           <ul className="navbar-desktop-links">{renderLinks()}</ul>

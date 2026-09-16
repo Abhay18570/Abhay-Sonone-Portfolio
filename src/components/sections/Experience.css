@@ -1,5 +1,5 @@
 @layer components {
-  .experience { background: #f8fafc; color: #0f172a; color-scheme: light; padding-block: clamp(3.5rem, 7.5vw, 6.875rem); }
+  .experience { overflow-x: clip; background: #f8fafc; color: #0f172a; color-scheme: light; padding-block: clamp(3.5rem, 7.5vw, 6.875rem); }
   .experience-heading { text-align: center; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
   .experience-heading h2 { font-size: clamp(2.125rem, 4.4vw, 3.5rem); font-weight: 800; }
   .experience-heading > p { max-width: 42rem; margin: 1rem auto 0; color: #475569; text-wrap: balance; }

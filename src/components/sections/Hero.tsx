@@ -1,3 +1,4 @@
+import { RotatingIcon } from '../ui/RotatingIcon'
 import { motion } from 'framer-motion'
 import { usePortfolioMotion, rotateIn, fadeInUp } from '../../motion/presets'
 import { ChevronDown, FolderOpen, Mail } from 'lucide-react'
@@ -65,7 +66,7 @@ export function Hero() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Icon size={20} aria-hidden="true" />
+                  <RotatingIcon duration={0.55} area=".hero-social"><Icon size={20} aria-hidden="true" /></RotatingIcon>
                 </motion.a>
               )
             })}
