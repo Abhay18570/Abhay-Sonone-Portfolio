@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { usePortfolioMotion } from '../../motion/presets'
 import { Code2, ExternalLink, Image } from 'lucide-react'
 import { SiGithub } from 'react-icons/si'
 import { projects } from '../../data/portfolio'
@@ -45,17 +46,17 @@ function ProjectCard({ project }: { project: Project }) {
 }
 
 export function Projects() {
-  const reduceMotion = useReducedMotion()
+  const { reveal } = usePortfolioMotion()
   return (
     <section id="projects" className="projects" aria-labelledby="projects-title">
       <div className="page-container">
-        <motion.div className="projects-heading" initial={reduceMotion ? false : { opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: reduceMotion ? 0 : 0.4 }}>
-          <h2 id="projects-title"><GradientText>Projects</GradientText></h2>
-          <p>Selected projects where I turn ideas into practical technology solutions.</p>
-        </motion.div>
+        <div className="projects-heading">
+          <motion.h2 {...reveal()} id="projects-title"><GradientText>Projects</GradientText></motion.h2>
+          <motion.p {...reveal(0.1)}>Selected projects where I turn ideas into practical technology solutions.</motion.p>
+        </div>
         <div className="projects-grid">
           {projects.map((project, index) => (
-            <motion.div key={project.id} initial={reduceMotion ? false : { opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.15 }} transition={{ duration: reduceMotion ? 0 : 0.45, delay: reduceMotion ? 0 : index * 0.06 }}>
+            <motion.div key={project.id} {...reveal((index % 3) * 0.1)}>
               <ProjectCard project={project} />
             </motion.div>
           ))}

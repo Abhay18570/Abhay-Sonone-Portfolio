@@ -8,6 +8,7 @@ import { Projects } from './components/sections/Projects'
 import { Testimonials } from './components/sections/Testimonials'
 import { Contact } from './components/sections/Contact'
 import { Hero } from './components/sections/Hero'
+import './motion/interactions.css'
 
 function App() {
   return (

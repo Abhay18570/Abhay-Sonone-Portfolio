@@ -1,0 +1,48 @@
+@layer components {
+  .typewriter-text {
+    display: inline-block;
+    color: var(--color-secondary);
+    font-weight: 500;
+  }
+
+  .typewriter-content {
+    display: inline;
+    position: relative;
+  }
+
+  .typewriter-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.15em;
+    margin-left: 2px;
+    vertical-align: -0.15em;
+    background: var(--color-violet);
+    border-radius: 1px;
+    box-shadow: 0 0 6px rgb(139 92 246 / 0.8);
+    animation: typewriter-blink 0.85s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+@keyframes typewriter-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-cursor {
+    animation: none;
+    opacity: 0;
+  }
+}

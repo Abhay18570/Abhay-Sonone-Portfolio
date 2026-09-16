@@ -1,0 +1,273 @@
+/* Complete, polished animation and micro-interaction system across the portfolio.
+   CSS handles hardware-accelerated transitions, keyframes, and hover effects; Motion handles reveals. */
+@layer components {
+  :root {
+    --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --motion-micro: 220ms;
+  }
+
+  a[href] { cursor: pointer; }
+
+  /* Smooth interpolation for all interactive controls */
+  a, button, .about-focus li, .experience-tag, .project-technologies li,
+  .education-studies li span, .tech-logo-card, .contact-social, .footer-social,
+  .hero-social, .about-checklist li {
+    transition: color var(--motion-micro) ease, background-color var(--motion-micro) ease,
+      border-color var(--motion-micro) ease, box-shadow var(--motion-micro) ease,
+      transform var(--motion-micro) var(--motion-ease), translate var(--motion-micro) var(--motion-ease),
+      scale var(--motion-micro) var(--motion-ease);
+  }
+
+  /* Standard card hover baseline */
+  .card-hoverable, .project-card, .testimonial-card, .contact-card,
+  .education-card, .experience-card, .about-photo {
+    transition: transform 260ms var(--motion-ease), border-color 260ms ease, box-shadow 260ms ease;
+  }
+
+  /* Micro icon animations */
+  .education-icon, .experience-icon, .tech-logo, .testimonial-quote,
+  .contact-icon, a svg, button svg, .about-check-icon svg {
+    transition: transform var(--motion-micro) var(--motion-ease);
+  }
+
+  .about-photo img, .project-preview img {
+    transition: transform 450ms var(--motion-ease);
+  }
+
+  /* Navbar link animated underline */
+  .navbar-link {
+    transition: color 200ms ease, transform 200ms var(--motion-ease);
+  }
+  .navbar-link::after {
+    transition: transform 220ms var(--motion-ease);
+  }
+  .navbar-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* Form input focus transitions */
+  .testimonial-form input, .testimonial-form textarea {
+    transition: border-color var(--motion-micro) ease, box-shadow var(--motion-micro) ease,
+      transform var(--motion-micro) var(--motion-ease);
+  }
+  .testimonial-form input:focus, .testimonial-form textarea:focus {
+    border-color: var(--color-violet);
+    box-shadow: 0 0 0 3px rgb(109 59 255 / 0.15), 0 3px 12px rgb(109 59 255 / 0.1);
+  }
+  .testimonial-form [aria-invalid='true']:focus { border-color: #b91c1c; }
+
+  /* Keyboard focus must always reveal hidden animated elements */
+  [data-motion-reveal]:focus-within { opacity: 1 !important; transform: none !important; }
+
+  /* Tap feedback for interactive buttons */
+  @media (prefers-reduced-motion: no-preference) {
+    .button:active:not(:disabled), .contact-message:active:not(:disabled),
+    .navbar-resume:active:not(:disabled), .testimonial-form-submit:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+    .hero-social:active, .contact-social:active, .footer-social:active {
+      transform: scale(0.95);
+    }
+    .testimonial-form input:focus, .testimonial-form textarea:focus {
+      transform: translateY(-1px);
+    }
+  }
+
+  /* Fine-pointer hover enhancements */
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .navbar-link:hover {
+      transform: translateY(-1px);
+    }
+
+    .button:hover:not(:disabled), a.contact-message:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 24px rgb(109 59 255 / 0.28);
+    }
+    .navbar-resume:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 20px rgb(109 59 255 / 0.35);
+    }
+    .navbar-resume:hover svg {
+      animation: resume-icon-nudge 400ms ease-in-out;
+    }
+
+    /* Cards */
+    .card-hoverable:hover, .project-card:hover, .contact-card:hover, .education-card:hover {
+      transform: translateY(-5px) scale(1.01);
+      border-color: var(--color-violet);
+      box-shadow: 0 12px 28px rgb(109 59 255 / 0.14);
+    }
+    .experience-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--color-violet);
+      box-shadow: 0 12px 28px rgb(109 59 255 / 0.14);
+    }
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      border-color: #c4b5fd;
+      box-shadow: 0 12px 28px rgb(109 59 255 / 0.09);
+    }
+    .testimonial-card:hover .testimonial-quote {
+      transform: scale(1.08) rotate(-4deg);
+    }
+
+    /* Tech stack cards and logos */
+    .tech-logo-card:hover {
+      transform: translateY(-6px) scale(1.04);
+      border-color: #c4b5fd;
+      box-shadow: 0 10px 24px rgb(15 23 42 / 0.14);
+    }
+    .tech-logo-card:hover .tech-logo {
+      animation: tech-icon-greet 400ms var(--motion-ease) both;
+    }
+
+    /* Icon micro-interactions */
+    .education-card:hover .education-icon {
+      animation: education-icon-greet 400ms var(--motion-ease) both;
+    }
+    .experience-card:hover .experience-icon-wrapper {
+      transform: scale(1.08);
+    }
+    .contact-card:hover .contact-icon {
+      transform: scale(1.08);
+    }
+
+    /* Photos */
+    .about-photo:hover {
+      transform: scale(1.02);
+    }
+    .about-photo:hover img {
+      transform: scale(1.04);
+    }
+    .project-card:hover .project-preview img {
+      transform: scale(1.04);
+    }
+
+    /* Social icons */
+    a.hero-social:hover {
+      transform: translateY(-3px) scale(1.12) rotate(4deg);
+      color: var(--color-foreground);
+      background: var(--color-card);
+      box-shadow: 0 4px 14px rgb(109 59 255 / 0.2);
+    }
+    a.contact-social:hover {
+      transform: translateY(-3px) scale(1.12) rotate(4deg);
+      border-color: var(--color-violet);
+      color: #c4b5fd;
+      box-shadow: 0 4px 14px rgb(109 59 255 / 0.2);
+    }
+    a.footer-social:hover {
+      transform: translateY(-3px) scale(1.12) rotate(4deg);
+      color: #c4b5fd;
+    }
+
+    /* Arrow and action icon nudges */
+    .hero-actions a:first-child:hover svg {
+      transform: rotate(5deg);
+    }
+    .hero-actions a:last-child:hover svg, .project-actions a:hover svg, .about-cta a:hover svg,
+    .testimonial-link:hover svg, a.contact-message:hover svg, .testimonial-form-submit:hover:not(:disabled) svg {
+      transform: translateX(3px);
+    }
+    .footer-top:hover svg {
+      transform: translateY(-3px);
+    }
+
+    /* Tags, badges, and list items */
+    .about-checklist li:hover {
+      transform: translateX(3px);
+    }
+    .about-focus li:hover {
+      transform: translateY(-2px) scale(1.05);
+      border-color: var(--color-violet);
+      box-shadow: 0 4px 12px rgb(109 59 255 / 0.15);
+    }
+    .experience-tag:hover {
+      transform: translateY(-2px) scale(1.04);
+      background: rgb(139 92 246 / 0.2);
+      border-color: rgb(139 92 246 / 0.5);
+      color: #fff;
+    }
+    .project-technologies li:hover {
+      transform: translateY(-1px) scale(1.04);
+      border-color: rgb(34 197 94 / 0.6);
+    }
+    .education-studies li span:hover {
+      transform: translateY(-2px) scale(1.04);
+      border-color: var(--color-violet);
+    }
+  }
+
+  /* Desktop ambient animations */
+  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+    .hero-profile {
+      animation: profile-float 5.5s ease-in-out 800ms infinite;
+    }
+    .hero-cell:first-child .hero-cell-pattern svg {
+      animation: decorative-drift 24s ease-in-out infinite;
+    }
+    .contact-cta {
+      background-size: 115% 115%;
+      animation: cta-gradient-drift 20s ease-in-out infinite alternate;
+    }
+    .experience-entry::before {
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 650ms var(--motion-ease);
+    }
+    .experience-entry[data-entered='true']::before {
+      transform: scaleY(1);
+    }
+  }
+}
+
+@keyframes profile-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes decorative-drift {
+  0%, 100% { transform: rotate(-3deg) translateY(0); }
+  50% { transform: rotate(3deg) translateY(-4px); }
+}
+@keyframes cta-gradient-drift {
+  from { background-position: 0% 50%; }
+  to { background-position: 100% 50%; }
+}
+@keyframes resume-icon-nudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+@keyframes tech-icon-greet {
+  0% { transform: scale(1) rotate(0); }
+  50% { transform: scale(1.1) rotate(4deg); }
+  100% { transform: scale(1.1) rotate(0); }
+}
+@keyframes education-icon-greet {
+  0% { transform: scale(1) rotate(0); }
+  50% { transform: scale(1.08) rotate(3deg); }
+  100% { transform: scale(1.08) rotate(0); }
+}
+
+/* prefers-reduced-motion: reduce - ensure instant clarity without motion */
+@media (prefers-reduced-motion: reduce) {
+  [data-motion-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-profile {
+    animation: none !important;
+    transform: none !important;
+  }
+  .contact-cta {
+    animation: none !important;
+  }
+  .hero-background-photo {
+    animation: none !important;
+    transform: none !important;
+  }
+  .experience-entry::before {
+    transform: none !important;
+  }
+}
+

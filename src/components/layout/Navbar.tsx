@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { usePortfolioMotion } from '../../motion/presets'
 import { Download, Menu, X } from 'lucide-react'
 
 const navigationItems = [
@@ -19,7 +20,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeId, setActiveId] = useState('')
   const toggleRef = useRef<HTMLButtonElement>(null)
-  const reduceMotion = useReducedMotion()
+  const { entrance, reduced } = usePortfolioMotion()
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 8)
@@ -31,6 +32,9 @@ export function Navbar() {
   useEffect(() => {
     if (!('IntersectionObserver' in window)) return
     const visibleSections = new Set<string>()
+    // Match anchor scrolling so the previous section's final pixels do not
+    // keep its underline active after a navigation click.
+    const anchorOffset = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 80
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         if (entry.isIntersecting) visibleSections.add(entry.target.id)
@@ -38,7 +42,7 @@ export function Navbar() {
       }
       const active = navigationItems.find(({ id }) => visibleSections.has(id))
       setActiveId(active?.id ?? '')
-    }, { rootMargin: '-80px 0px -45% 0px', threshold: 0 })
+    }, { rootMargin: `-${anchorOffset + 1}px 0px -45% 0px`, threshold: 0 })
 
     for (const { id } of navigationItems) {
       const section = document.getElementById(id)
@@ -99,7 +103,10 @@ export function Navbar() {
   }
 
   return (
-    <header
+    <motion.header
+      {...entrance()}
+      initial={reduced ? false : { opacity: 0, y: -12 }}
+      animate={{ opacity: 1, y: 0 }}
       className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}
       onBlur={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget)) setIsOpen(false)
@@ -130,7 +137,7 @@ export function Navbar() {
           className="navbar-mobile"
           initial={false}
           animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
-          transition={{ duration: reduceMotion ? 0 : 0.18, ease: 'easeInOut' }}
+          transition={{ duration: reduced ? 0 : 0.18, ease: 'easeInOut' }}
           inert={!isOpen}
           aria-hidden={!isOpen}
         >
@@ -140,6 +147,6 @@ export function Navbar() {
           </div>
         </motion.div>
       </nav>
-    </header>
+    </motion.header>
   )
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { usePortfolioMotion, fadeIn } from '../../motion/presets'
 import { ExternalLink, Quote } from 'lucide-react'
 import { testimonials } from '../../data/portfolio'
 import type { Testimonial } from '../../data/portfolio'
@@ -7,13 +8,14 @@ import { GradientText } from '../ui/GradientText'
 import { TestimonialForm } from './TestimonialForm'
 import './Testimonials.css'
 
-function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+function TestimonialCard({ testimonial, index }: { testimonial: Testimonial; index: number }) {
+  const { reveal } = usePortfolioMotion()
   const [imageFailed, setImageFailed] = useState(false)
   const initials = testimonial.name.trim().split(/\s+/).map((part) => part[0]).slice(0, 2).join('')
   return (
-    <article className="testimonial-card" aria-labelledby={`testimonial-${testimonial.id}`}>
+    <motion.article {...reveal((index % 3) * 0.1, fadeIn)} className="testimonial-card" aria-labelledby={`testimonial-${testimonial.id}`}>
       <Quote className="testimonial-quote" size={28} aria-hidden="true" />
-      <blockquote><p>{testimonial.quote}</p></blockquote>
+      <motion.blockquote {...reveal((index % 3) * 0.1)}><p>{testimonial.quote}</p></motion.blockquote>
       <div className="testimonial-person">
         {testimonial.image && !imageFailed ? (
           <img className="testimonial-avatar" src={testimonial.image} alt="" width={48} height={48} loading="lazy" decoding="async" onError={() => setImageFailed(true)} />
@@ -29,35 +31,29 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
           LinkedIn <ExternalLink size={16} aria-hidden="true" />
         </a>
       )}
-    </article>
+    </motion.article>
   )
 }
 
 export function Testimonials() {
-  const reduceMotion = useReducedMotion()
-  const reveal = (y: number) => ({
-    initial: reduceMotion ? false as const : { opacity: 0, y },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.15 },
-    transition: { duration: reduceMotion ? 0 : 0.45 },
-  })
+  const { reveal } = usePortfolioMotion()
 
   return (
     <section id="testimonials" className="testimonials" aria-labelledby="testimonials-title">
       <div className="page-container">
-        <motion.div className="testimonials-heading" {...reveal(15)}>
-          <h2 id="testimonials-title"><GradientText>Testimonials</GradientText></h2>
-          <p>Feedback from people I've collaborated and built with.</p>
-        </motion.div>
+        <div className="testimonials-heading">
+          <motion.h2 {...reveal()} id="testimonials-title"><GradientText>Testimonials</GradientText></motion.h2>
+          <motion.p {...reveal(0.1)}>Feedback from people I've collaborated and built with.</motion.p>
+        </div>
         {testimonials.length === 0 ? (
-          <motion.div className="testimonials-empty" {...reveal(20)}>
+          <motion.div className="testimonials-empty" {...reveal()}>
             <div className="testimonials-empty-icon"><Quote size={32} strokeWidth={1.5} aria-hidden="true" /></div>
             <h3>Testimonials Coming Soon</h3>
             <p>Recommendations and feedback from project collaborators, mentors and teammates will be added here.</p>
           </motion.div>
         ) : (
           <div className="testimonials-grid">
-            {testimonials.map((testimonial) => <TestimonialCard key={testimonial.id} testimonial={testimonial} />)}
+            {testimonials.map((testimonial, index) => <TestimonialCard index={index} key={testimonial.id} testimonial={testimonial} />)}
           </div>
         )}
         <TestimonialForm />

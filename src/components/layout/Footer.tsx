@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+import { usePortfolioMotion } from '../../motion/presets'
 import { ArrowUp } from 'lucide-react'
 import { SiGithub, SiInstagram } from 'react-icons/si'
 import { FaLinkedinIn } from 'react-icons/fa'
@@ -14,9 +16,10 @@ const footerLinks = [
 const socialIcons = { github: SiGithub, linkedin: FaLinkedinIn, instagram: SiInstagram }
 
 export function Footer() {
+  const { reveal } = usePortfolioMotion()
   return (
     <footer className="footer">
-      <div className="page-container">
+      <motion.div className="page-container" {...reveal()}>
         <div className="footer-main">
           <a className="footer-brand" href="#home">
             <span className="footer-initials" aria-hidden="true">{portfolio.initials}</span>
@@ -32,11 +35,15 @@ export function Footer() {
               const Icon = socialIcons[platform]
               return (
                 <li key={platform}>
-                  {url.trim() ? (
-                    <a className="footer-social" href={url.trim()} target="_blank" rel="noopener noreferrer" aria-label={label}><Icon size={19} aria-hidden="true" /></a>
-                  ) : (
-                    <span className="footer-social footer-social-disabled" role="link" aria-disabled="true" aria-label={label} title={`${label} — coming soon`}><Icon size={19} aria-hidden="true" /></span>
-                  )}
+                  <a
+                    className="footer-social"
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                  >
+                    <Icon size={19} aria-hidden="true" />
+                  </a>
                 </li>
               )
             })}
@@ -46,7 +53,7 @@ export function Footer() {
           <p>© {new Date().getFullYear()} {portfolio.name}. All rights reserved.</p>
           <a className="footer-top" href="#top" aria-label="Back to top"><ArrowUp size={19} aria-hidden="true" /></a>
         </div>
-      </div>
+      </motion.div>
     </footer>
   )
 }

@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+import { usePortfolioMotion } from '../../motion/presets'
 import { useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Send } from 'lucide-react'
@@ -10,6 +12,7 @@ type FieldErrors = Partial<Record<'name' | 'feedback', string>>
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
 export function TestimonialForm({ submit = submitTestimonial }: { submit?: SubmitTestimonial }) {
+  const { reveal, entrance } = usePortfolioMotion()
   const [values, setValues] = useState<TestimonialSubmission>({ name: '', role: '', feedback: '' })
   const [errors, setErrors] = useState<FieldErrors>({})
   const [status, setStatus] = useState<Status>('idle')
@@ -56,7 +59,7 @@ export function TestimonialForm({ submit = submitTestimonial }: { submit?: Submi
   }
 
   return (
-    <form className="testimonial-form" aria-labelledby="testimonial-form-title" onSubmit={handleSubmit} noValidate aria-busy={status === 'submitting'}>
+    <motion.form {...reveal()} className="testimonial-form" aria-labelledby="testimonial-form-title" onSubmit={handleSubmit} noValidate aria-busy={status === 'submitting'}>
       <div className="testimonial-form-heading">
         <h3 id="testimonial-form-title">Share Your Experience</h3>
         <p>Worked with me on a project, hackathon or technical collaboration? I'd love to hear your feedback.</p>
@@ -66,7 +69,7 @@ export function TestimonialForm({ submit = submitTestimonial }: { submit?: Submi
         <div className="testimonial-form-field">
           <label htmlFor="testimonial-name">Your Name</label>
           <input ref={nameRef} id="testimonial-name" name="name" type="text" autoComplete="name" placeholder="Enter your name" required minLength={2} value={values.name} onChange={(event) => update('name', event.target.value)} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? 'testimonial-name-error' : undefined} />
-          {errors.name && <p id="testimonial-name-error" className="testimonial-form-error">{errors.name}</p>}
+          {errors.name && <motion.p {...entrance()} id="testimonial-name-error" className="testimonial-form-error">{errors.name}</motion.p>}
         </div>
         <div className="testimonial-form-field">
           <label htmlFor="testimonial-role">Your Role / Organization <span>(optional)</span></label>
@@ -76,13 +79,13 @@ export function TestimonialForm({ submit = submitTestimonial }: { submit?: Submi
           <label htmlFor="testimonial-feedback">Your Feedback</label>
           <textarea ref={feedbackRef} id="testimonial-feedback" name="feedback" rows={5} placeholder="Share your experience working with me..." required minLength={10} maxLength={500} value={values.feedback} onChange={(event) => update('feedback', event.target.value)} aria-invalid={Boolean(errors.feedback)} aria-describedby={`testimonial-feedback-count${errors.feedback ? ' testimonial-feedback-error' : ''}`} />
           <p id="testimonial-feedback-count" className="testimonial-form-count">{values.feedback.length} / 500</p>
-          {errors.feedback && <p id="testimonial-feedback-error" className="testimonial-form-error">{errors.feedback}</p>}
+          {errors.feedback && <motion.p {...entrance()} id="testimonial-feedback-error" className="testimonial-form-error">{errors.feedback}</motion.p>}
         </div>
         <Button type="submit" className="testimonial-form-submit" disabled={status === 'submitting'}><Send size={18} aria-hidden="true" />{status === 'submitting' ? 'Submitting…' : 'Submit Testimonial'}</Button>
       </fieldset>
       <div aria-live="polite" aria-atomic="true">
-        {message && <p className={status === 'success' ? 'testimonial-form-success' : 'testimonial-form-error'}>{message}</p>}
+        {message && <motion.p {...entrance()} key={status} className={status === 'success' ? 'testimonial-form-success' : 'testimonial-form-error'}>{message}</motion.p>}
       </div>
-    </form>
+    </motion.form>
   )
 }

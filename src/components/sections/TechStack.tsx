@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { usePortfolioMotion, scaleIn } from '../../motion/presets'
 import type { IconType } from 'react-icons'
 import { SiReact, SiTypescript, SiPython, SiFastapi, SiNodedotjs, SiTailwindcss, SiPostgresql, SiMongodb, SiHtml5, SiJavascript } from 'react-icons/si'
 import { FaCss3Alt, FaJava } from 'react-icons/fa'
@@ -22,14 +23,11 @@ const technologies: Technology[] = [
 ]
 
 function TechCard({ technology, index }: { technology: Technology; index: number }) {
-  const reduceMotion = useReducedMotion()
+  const { reveal } = usePortfolioMotion()
   const Icon = technology.icon
   return (
     <motion.li
-      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: reduceMotion ? 0 : 0.4, delay: reduceMotion ? 0 : (index % 6) * 0.035 }}
+      {...reveal((index % 6) * 0.05, scaleIn)}
     >
       <div className="tech-logo-card">
         <Icon className="tech-logo" style={{ color: technology.color }} aria-hidden="true" />
@@ -40,14 +38,15 @@ function TechCard({ technology, index }: { technology: Technology; index: number
 }
 
 export function TechStack() {
+  const { reveal } = usePortfolioMotion()
   return (
     <section id="skills" className="tech-stack" aria-labelledby="tech-stack-title">
       <div className="page-container">
-        <h2 id="tech-stack-title" className="tech-stack-heading"><GradientText>Tech Stack</GradientText></h2>
+        <motion.h2 {...reveal()} id="tech-stack-title" className="tech-stack-heading"><GradientText>Tech Stack</GradientText></motion.h2>
         <ul className="tech-logo-grid">
           {technologies.map((technology, index) => <TechCard key={technology.name} technology={technology} index={index} />)}
         </ul>
-        <p className="tech-learning">Constantly learning and exploring new technologies</p>
+        <motion.p {...reveal()} className="tech-learning">Constantly learning and exploring new technologies</motion.p>
       </div>
     </section>
   )

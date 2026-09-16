@@ -1,61 +1,107 @@
-import { motion, useReducedMotion } from 'framer-motion'
-import { Check, Code2, Lightbulb, Users } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { usePortfolioMotion, scaleIn, fadeInUp } from '../../motion/presets'
+import { Building2, Calendar, Check, Code2, Globe, Laptop, MapPin, Smartphone, Users } from 'lucide-react'
 import { experience } from '../../data/portfolio'
 import { Card } from '../ui/Card'
 import { GradientText } from '../ui/GradientText'
 import './Experience.css'
 
-const experienceIcons = { code: Code2, idea: Lightbulb, team: Users }
+const roleIcons = {
+  code: Code2,
+  web: Globe,
+  partner: Users,
+  mobile: Smartphone,
+}
 
 export function Experience() {
-  const reduceMotion = useReducedMotion()
+  const { reveal } = usePortfolioMotion()
 
   return (
     <section id="experience" className="experience" aria-labelledby="experience-title">
       <div className="page-container">
         <div className="experience-heading">
-          <h2 id="experience-title"><GradientText>Experience</GradientText></h2>
-          <p>Experience gained through projects, technical activities and collaborative development.</p>
+          <motion.h2 {...reveal()} id="experience-title"><GradientText>Experience</GradientText></motion.h2>
+          <motion.p {...reveal(0.1)}>Experience gained through projects, technical activities and collaborative development.</motion.p>
         </div>
         <div className="experience-timeline">
           {experience.map((entry, index) => {
-            const Icon = experienceIcons[entry.icon]
+            const Icon = roleIcons[entry.icon]
             return (
-              <div className="experience-entry" key={entry.id}>
+              <motion.div
+                className="experience-entry"
+                key={entry.id}
+                {...reveal(index * 0.1)}
+                onViewportEnter={(el) => el?.target.setAttribute('data-entered', 'true')}
+              >
                 <motion.span
                   className="experience-marker"
                   aria-hidden="true"
-                  initial={reduceMotion ? false : { opacity: 0, scale: 0.85 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: reduceMotion ? 0 : 0.3 }}
+                  {...reveal(0, scaleIn)}
                 />
-                <motion.article
-                  aria-labelledby={`experience-${entry.id}`}
-                  initial={reduceMotion ? false : { opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.15 }}
-                  transition={{ duration: reduceMotion ? 0 : 0.45, delay: reduceMotion ? 0 : index * 0.06 }}
-                >
-                  <Card hoverable className="experience-card">
+                <article aria-labelledby={`experience-${entry.id}`}>
+                  <Card hoverable className={`experience-card ${entry.current ? 'experience-card-current' : ''}`}>
                     <div className="experience-card-header">
-                      <div>
-                        <p className="experience-category">{entry.category}</p>
-                        <h3 id={`experience-${entry.id}`}>{entry.title}</h3>
-                        <p className="experience-context">{entry.context}</p>
+                      <div className="experience-header-main">
+                        <div className="experience-badge-row">
+                          <span className="experience-type-badge">{entry.type}</span>
+                          {entry.current && (
+                            <span className="experience-current">
+                              <span className="experience-current-dot" aria-hidden="true" />
+                              Currently Working
+                            </span>
+                          )}
+                        </div>
+                        <h3 id={`experience-${entry.id}`} className="experience-role">{entry.role}</h3>
+                        <p className="experience-company">{entry.company}</p>
+                        <div className="experience-meta" aria-label="Experience metadata">
+                          <span className="experience-meta-item">
+                            <Calendar size={15} aria-hidden="true" />
+                            <span>{entry.period}{entry.durationLabel ? ` · ${entry.durationLabel}` : ''}</span>
+                          </span>
+                          {entry.location && (
+                            <span className="experience-meta-item">
+                              <MapPin size={15} aria-hidden="true" />
+                              <span>{entry.location}</span>
+                            </span>
+                          )}
+                          {entry.workMode && (
+                            <span className="experience-meta-item">
+                              {entry.workMode === 'Remote' ? (
+                                <Laptop size={15} aria-hidden="true" />
+                              ) : (
+                                <Building2 size={15} aria-hidden="true" />
+                              )}
+                              <span>{entry.workMode}</span>
+                            </span>
+                          )}
+                        </div>
                       </div>
-                      <Icon className="experience-icon" size={32} strokeWidth={1.5} aria-hidden="true" />
+                      <div className="experience-icon-wrapper" aria-hidden="true">
+                        <Icon size={26} strokeWidth={1.5} className="experience-icon" />
+                      </div>
                     </div>
+
                     <p className="experience-description">{entry.description}</p>
+
                     <ul className="experience-highlights">
-                      {entry.highlights.map((highlight) => <li key={highlight}><Check size={18} aria-hidden="true" /><span>{highlight}</span></li>)}
+                      {entry.highlights.map((highlight, hIndex) => (
+                        <motion.li key={highlight} {...reveal(hIndex * 0.04, fadeInUp)}>
+                          <Check size={18} aria-hidden="true" />
+                          <span>{highlight}</span>
+                        </motion.li>
+                      ))}
                     </ul>
-                    <ul className="experience-tags" aria-label="Technologies and skills">
-                      {entry.tags.map((tag) => <li key={tag}>{tag}</li>)}
+
+                    <ul className="experience-tags" aria-label="Skills and technologies">
+                      {entry.tags.map((tag, tIndex) => (
+                        <motion.li key={tag} className="experience-tag" {...reveal(0.08 + tIndex * 0.03, scaleIn)}>
+                          {tag}
+                        </motion.li>
+                      ))}
                     </ul>
                   </Card>
-                </motion.article>
-              </div>
+                </article>
+              </motion.div>
             )
           })}
         </div>
@@ -63,3 +109,4 @@ export function Experience() {
     </section>
   )
 }
+
