@@ -13,11 +13,20 @@ function ProjectCard({ project }: { project: Project }) {
   const [imageFailed, setImageFailed] = useState(false)
   const hasImage = Boolean(project.image) && !imageFailed
   const PreviewIcon = project.placeholder ? Code2 : Image
+
   return (
     <article className="project-card" aria-labelledby={`project-${project.id}`}>
       <div className="project-preview">
         {hasImage ? (
-          <img src={project.image} alt={project.imageAlt ?? `${project.title} preview`} loading="lazy" decoding="async" width={800} height={450} onError={() => setImageFailed(true)} />
+          <img
+            src={project.image}
+            alt={project.imageAlt ?? `${project.title} landing page`}
+            loading="lazy"
+            decoding="async"
+            width={800}
+            height={474}
+            onError={() => setImageFailed(true)}
+          />
         ) : (
           <div className="project-preview-placeholder">
             <RotatingIcon><PreviewIcon size={38} strokeWidth={1.5} aria-hidden="true" /></RotatingIcon>
@@ -26,19 +35,49 @@ function ProjectCard({ project }: { project: Project }) {
         )}
       </div>
       <div className="project-content">
-        {project.featured && <span className="project-featured">Featured</span>}
-        {project.category && <p className="project-category">{project.category}</p>}
+        <div className="project-meta-header">
+          {project.featured && <span className="project-featured">Featured</span>}
+          {project.category && <p className="project-category">{project.category}</p>}
+        </div>
         <h3 id={`project-${project.id}`}>{project.title}</h3>
         <p className="project-description">{project.description}</p>
         {project.technologies.length > 0 && (
           <ul className="project-technologies" aria-label="Project technologies">
-            {project.technologies.map((technology) => <li key={technology}>{technology}</li>)}
+            {project.technologies.map((technology) => (
+              <li key={technology}>{technology}</li>
+            ))}
           </ul>
         )}
-        {(project.github || project.liveUrl) && (
+        {(project.liveUrl || project.github) && (
           <div className="project-actions">
-            {project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} on GitHub (opens in a new tab)`}><RotatingIcon area="a" duration={0.55}><SiGithub size={17} aria-hidden="true" /></RotatingIcon>GitHub</a>}
-            {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} live demo (opens in a new tab)`}>Live Demo<RotatingIcon area="a" duration={0.55}><ExternalLink size={17} aria-hidden="true" /></RotatingIcon></a>}
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="project-live-btn"
+                aria-label={`${project.title} live demo (opens in a new tab)`}
+              >
+                <span>Live Demo</span>
+                <RotatingIcon area="a" duration={0.55}>
+                  <ExternalLink size={16} aria-hidden="true" />
+                </RotatingIcon>
+              </a>
+            )}
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="project-github-btn"
+                aria-label={`${project.title} on GitHub (opens in a new tab)`}
+              >
+                <RotatingIcon area="a" duration={0.55}>
+                  <SiGithub size={16} aria-hidden="true" />
+                </RotatingIcon>
+                <span>GitHub</span>
+              </a>
+            )}
           </div>
         )}
       </div>

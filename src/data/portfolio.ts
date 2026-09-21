@@ -1,3 +1,7 @@
+import udyamMitraImage from '../images/UdyamMitra.png'
+import misImage from '../images/MIS.png'
+import sahayakImage from '../images/Sahayak.png'
+
 export type SocialPlatform = 'github' | 'linkedin' | 'instagram'
 
 export interface SocialLink {
@@ -212,27 +216,33 @@ export const projects: Project[] = [
   {
     id: 'udyammitra',
     title: 'UdyamMitra',
-    category: 'AI-Powered Business Advisory Platform',
-    description: 'An AI-powered multilingual business advisory platform designed to help rural and semi-urban entrepreneurs evaluate business opportunities, understand local market conditions and plan financing using data-driven analysis.',
-    image: '/projects/udyammitra.webp',
-    imageAlt: 'UdyamMitra business advisory platform preview',
+    category: 'AI-POWERED BUSINESS ADVISORY PLATFORM',
+    description: 'An AI-powered multilingual business advisory platform designed to help rural and semi-urban entrepreneurs evaluate business opportunities, understand local market conditions, and plan financing using data-driven analysis.',
+    image: udyamMitraImage,
+    imageAlt: 'UdyamMitra business advisory platform landing page',
     technologies: ['React', 'TypeScript', 'Vite', 'FastAPI', 'PostgreSQL', 'PostGIS', 'AI/NLP'],
+    liveUrl: 'https://udyammitra-rural-business-advisor-w.vercel.app',
     featured: true,
-    // Add verified github and liveUrl values when available. Actions stay hidden until then.
   },
   {
-    id: 'coming-soon-2',
-    title: 'Project Coming Soon',
-    description: 'Additional project details will be added here.',
-    technologies: [],
-    placeholder: true,
+    id: 'mis-invoicing',
+    title: 'MIS & Invoicing System',
+    category: 'BUSINESS MANAGEMENT & INVOICING PLATFORM',
+    description: 'A centralized Management Information System for managing clients, estimates, invoices and payments, designed to simplify business workflows and provide clear payment visibility.',
+    image: misImage,
+    imageAlt: 'Code-B MIS and invoicing system landing page',
+    technologies: ['React', 'Vite', 'JavaScript', 'Bootstrap', 'Axios', 'MySQL'],
+    liveUrl: 'https://management-information-system-mis-lovat.vercel.app',
   },
   {
-    id: 'coming-soon-3',
-    title: 'Project Coming Soon',
-    description: 'Additional project details will be added here.',
-    technologies: [],
-    placeholder: true,
+    id: 'sahayak',
+    title: 'Sahayak',
+    category: 'LOCAL SERVICE DISCOVERY PLATFORM',
+    description: 'A local service discovery platform designed to help users find and connect with trusted service providers through a simple and accessible digital experience.',
+    image: sahayakImage,
+    imageAlt: 'Sahayak local service platform landing page',
+    technologies: ['React', 'Java', 'Spring Boot', 'MySQL', 'Google Maps API'],
+    liveUrl: 'https://sahayak-your-trusted-local-service.vercel.app',
   },
 ]
 
